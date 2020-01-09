@@ -1,11 +1,10 @@
 Summary: X.Org X11 libXxf86dga runtime library
 Name: libXxf86dga
-Version: 1.1.1
-Release: 1%{?dist}
+Version: 1.1.3
+Release: 2%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.x.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Source0: ftp://ftp.x.org/pub/individual/lib/%{name}-%{version}.tar.bz2
 
@@ -30,12 +29,12 @@ X.Org X11 libXxf86dga development package
 
 %build
 %configure --disable-static
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 # We intentionally don't ship *.la files
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -48,8 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-# FIXME: Some of these files are missing %doc AUTHORS COPYING README INSTALL ChangeLog
-%doc COPYING ChangeLog
+%doc COPYING ChangeLog README
 %{_libdir}/libXxf86dga.so.1
 %{_libdir}/libXxf86dga.so.1.0.0
 
@@ -58,11 +56,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libXxf86dga.so
 %{_libdir}/pkgconfig/xxf86dga.pc
 %{_mandir}/man3/*.3*
-%{_includedir}/X11/extensions/Xxf86dga.h
 %{_includedir}/X11/extensions/xf86dga1.h
+%{_includedir}/X11/extensions/Xxf86dga.h
 
 %changelog
-* Mon Oct 26 2009 Peter Hutterer <peter.hutterer@redhat.com> 1.1.1-1
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Thu Mar 08 2012 Adam Jackson <ajax@redhat.com> 1.1.3-1
+- libXxf86dga 1.1.3
+
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Mon Nov 08 2010 Adam Jackson <ajax@redhat.com> 1.1.2-1
+- libXxf86dga 1.1.2
+
+* Mon Jul 19 2010 Peter Hutterer <peter.hutterer@redhat.com> 1.1.1-2
+- Spec file fixes (#226094)
+
+* Tue Oct 06 2009 Peter Hutterer <peter.hutterer@redhat.com> 1.1.1-1
 - libXxf86dga 1.1.1
   Requires xorg-x11-proto-devel for new xf86dgaproto.
 
